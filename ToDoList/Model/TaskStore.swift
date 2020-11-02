@@ -34,7 +34,7 @@ class TaskStore{
             allTasks = tasks
         }
         catch{
-            print("Encountered some error: \(error)")
+            print("Encountered some error while loading: \(error)")
         }
         
         print("all items were loaded sucressfully")
