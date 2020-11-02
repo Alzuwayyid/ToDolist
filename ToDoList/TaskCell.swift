@@ -11,7 +11,7 @@ class TaskCell: UITableViewCell {
 
     @IBOutlet var title: UILabel!
     @IBOutlet var additionalNote: UILabel!
-    @IBOutlet var completionImage: UIImage!
+    @IBOutlet var completionImage: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

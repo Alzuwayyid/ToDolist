@@ -17,7 +17,15 @@ class TableViewController: UITableViewController {
             
 //        let detailViewController = DetailViewController(nibName: nil, bundle: nil)
 //        detailViewController.delegate = self
-        tableView.reloadData()
+        tableView.delegate = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
     
     
@@ -38,6 +46,11 @@ class TableViewController: UITableViewController {
 //        cell.detailTextLabel?.text = task.additionalNote
         cell.title.text = task.title
         cell.additionalNote.text = task.additionalNote
+        
+        if task.isCompleted{
+            cell.completionImage.image = UIImage(systemName: "checkmark.seal.fil")
+        }
+
         
         return cell
     }

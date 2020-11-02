@@ -141,6 +141,7 @@ extension DetailViewController{
         
         let task = Task(title: textTitle, dueDate: theDatePicker, date: Date(), additionalNote: addNotes, isCompleted: false, isLate: false)
         delegate.passTask(for: task)
+        
         self.navigationController?.popViewController(animated: true)
     }
 }
