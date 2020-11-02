@@ -34,10 +34,10 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UITextViewDel
     }()
     
     @IBAction func completedButton(_ sender: UIBarButtonItem) {
-        self.isCompleted = true
+        self.isCompleted.toggle()
         
-        if isCompleted == false{
-            self.completedButton.image = UIImage(systemName: "checkmark.seal.fil")
+        if isCompleted{
+            self.completedButton.image = UIImage(systemName: "checkmark.seal.fill")
         }
         else{
             self.completedButton.image = UIImage(systemName: "checkmark.seal")
@@ -48,7 +48,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UITextViewDel
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.completedButton.image = UIImage(systemName: "checkmark.seal")
         addNotes.delegate = self
         titleTextField.delegate = self
         
@@ -139,7 +139,7 @@ extension DetailViewController{
         }
         
         
-        let task = Task(title: textTitle, dueDate: theDatePicker, date: Date(), additionalNote: addNotes, isCompleted: false, isLate: false)
+        let task = Task(title: textTitle, dueDate: theDatePicker, date: Date(), additionalNote: addNotes, isCompleted: isCompleted, isLate: false)
         delegate.passTask(for: task)
         
         self.navigationController?.popViewController(animated: true)

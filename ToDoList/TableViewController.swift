@@ -48,7 +48,7 @@ class TableViewController: UITableViewController {
         cell.additionalNote.text = task.additionalNote
         
         if task.isCompleted{
-            cell.completionImage.image = UIImage(systemName: "checkmark.seal.fil")
+            cell.completionImage.image = UIImage(systemName: "checkmark.seal.fill")
         }
 
         
