@@ -53,6 +53,10 @@ class TaskStore{
         }
     }
     
+    func updateTask(_ task: Task){
+        
+    }
+    
     #warning("Might contain an error")
 //    func deleteTaskFromDisk(forKey key: String){
 //        let url = taskURL(forKey: key)

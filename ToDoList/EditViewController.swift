@@ -1,5 +1,5 @@
 //
-//  DetailViewController.swift
+//  EditViewController.swift
 //  ToDoList
 //
 //  Created by Mohammed on 02/11/2020.
@@ -7,24 +7,24 @@
 
 import UIKit
 
-
-protocol passTaskDelegate{
-    func passTask(/*controller: DetailViewController*/for PassedTask: Task)
-//    func update(for PassedTask: Task)
+protocol updateTaskDelegate {
+    func updateTask(passedTask oldTask: Task, new updateTask: Task)
 }
 
-class DetailViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
+class EditViewController: UIViewController, UITextFieldDelegate,UITextViewDelegate {
+    
     
     var taskStore: TaskStore!
     var task: Task!
     var delegate: passTaskDelegate!
-
+    var updateDelegate: updateTaskDelegate!
     
     @IBOutlet var dueDateSwitch: UISwitch!
     @IBOutlet var titleTextField: UITextField!
     @IBOutlet var addNotes: UITextView!
     @IBOutlet var datePicker: UIDatePicker!
     @IBOutlet var completedButton: UIBarButtonItem!
+    
     var isCompleted: Bool = false
     
     let dateFormatter: DateFormatter = {
@@ -52,7 +52,13 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UITextViewDel
         self.completedButton.image = UIImage(systemName: "checkmark.seal")
         addNotes.delegate = self
         titleTextField.delegate = self
-        dueDateSwitch.isOn = false
+        
+        self.addNotes.text = task.additionalNote
+        self.datePicker.date = task.dueDate ?? task.creationDate
+        self.titleTextField.text = task.title
+        self.datePicker.date = task.creationDate
+        self.isCompleted = task.isCompleted
+        
     }
         
     
@@ -79,7 +85,6 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UITextViewDel
         if let currentText = textField.text{
             self.titleTextField.text = currentText
         }
-            print("The current title from didEnd: \(titleTextField.text)")
     }
     
     
@@ -88,18 +93,18 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UITextViewDel
         if let current = textView.text{
             addNotes.text = current
         }
-        print("The current notes: \(addNotes.text)")
     }
 }
 
 
-extension DetailViewController{
-    
-    
+extension EditViewController{
+
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
+        let oldTaskToPass = task
+
         guard let textTitle = titleTextField.text else{
             return
         }
@@ -114,9 +119,9 @@ extension DetailViewController{
             dueDate = Date()
         }
                 
-        let task = Task(title: textTitle, dueDate: dueDate, date: dueDate!, additionalNote: addNotes, isCompleted: isCompleted, isLate: false)
-
-        delegate.passTask(for: task)
+        let updatedTask = Task(title: textTitle, dueDate: dueDate, date: dueDate!, additionalNote: addNotes, isCompleted: isCompleted, isLate: false)
+        updateDelegate.updateTask(passedTask: oldTaskToPass!, new: updatedTask)
+//        delegate.passTask(for: task)
         
         self.navigationController?.popViewController(animated: true)
     }
