@@ -60,6 +60,7 @@
                                     <outlet property="additionalNote" destination="HtN-TF-d1q" id="9zY-Bl-Jil"/>
                                     <outlet property="completionImage" destination="ZMV-Oz-9LH" id="c5W-tf-hc7"/>
                                     <outlet property="title" destination="jtW-bI-u3J" id="81k-aJ-stL"/>
+                                    <segue destination="zsO-kc-nin" kind="show" identifier="editTask" id="IDN-x2-18v"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -180,6 +181,89 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cnE-yB-H8X" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-197.10144927536234" y="133.92857142857142"/>
+        </scene>
+        <!--Edit View Controller-->
+        <scene sceneID="fx9-TR-gx6">
+            <objects>
+                <viewController id="zsO-kc-nin" customClass="EditViewController" customModule="ToDoList" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Nax-bx-eie">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="EOI-iL-v9e">
+                                <rect key="frame" x="0.0" y="126" width="414" height="709.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GsX-Ug-Xfh">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wJH-LF-ccE">
+                                        <rect key="frame" x="0.0" y="41.5" width="414" height="75.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="vXd-gP-KsC">
+                                        <rect key="frame" x="0.0" y="138" width="414" height="31"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Due date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="31m-ya-dbf">
+                                                <rect key="frame" x="0.0" y="0.0" width="344" height="31"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="K6T-QB-AV2">
+                                                <rect key="frame" x="365" y="0.0" width="51" height="31"/>
+                                            </switch>
+                                        </subviews>
+                                    </stackView>
+                                    <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="inr-w7-8pa">
+                                        <rect key="frame" x="0.0" y="190" width="414" height="216"/>
+                                    </datePicker>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Additional notes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rmw-wc-vTN">
+                                        <rect key="frame" x="0.0" y="427" width="414" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="scaleToFill" text="Write" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="vt7-og-GMy">
+                                        <rect key="frame" x="0.0" y="468.5" width="414" height="241"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <color key="textColor" systemColor="labelColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no"/>
+                                    </textView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="zCG-iy-Y2k"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="EOI-iL-v9e" firstAttribute="top" secondItem="zCG-iy-Y2k" secondAttribute="top" constant="38" id="BaF-j7-qee"/>
+                            <constraint firstItem="EOI-iL-v9e" firstAttribute="leading" secondItem="zCG-iy-Y2k" secondAttribute="leading" id="aRl-2p-S07"/>
+                            <constraint firstItem="zCG-iy-Y2k" firstAttribute="bottom" secondItem="EOI-iL-v9e" secondAttribute="bottom" constant="26.5" id="vir-pq-NEs"/>
+                            <constraint firstItem="EOI-iL-v9e" firstAttribute="trailing" secondItem="zCG-iy-Y2k" secondAttribute="trailing" id="zEJ-CX-VfI"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="h6e-Cl-Vfg">
+                        <barButtonItem key="rightBarButtonItem" image="checkmark.seal.fill" catalog="system" id="4Yp-hq-nZl">
+                            <connections>
+                                <action selector="completedButton:" destination="zsO-kc-nin" id="8QC-CG-kCR"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="addNotes" destination="vt7-og-GMy" id="rZe-Gl-hcM"/>
+                        <outlet property="completedButton" destination="4Yp-hq-nZl" id="4Ec-rQ-ymT"/>
+                        <outlet property="datePicker" destination="inr-w7-8pa" id="gN8-82-0Nl"/>
+                        <outlet property="dueDateSwitch" destination="K6T-QB-AV2" id="Ufe-ry-Eom"/>
+                        <outlet property="titleTextField" destination="wJH-LF-ccE" id="byu-8f-I7d"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rHz-Ho-VLo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1162" y="-555"/>
         </scene>
     </scenes>
     <resources>
