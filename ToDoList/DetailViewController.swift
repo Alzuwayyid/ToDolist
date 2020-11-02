@@ -23,6 +23,8 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UITextViewDel
     @IBOutlet var titleTextField: UITextField!
     @IBOutlet var addNotes: UITextView!
     @IBOutlet var datePicker: UIDatePicker!
+    @IBOutlet var completedButton: UIBarButtonItem!
+    var isCompleted: Bool = false
     
     let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -31,26 +33,17 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UITextViewDel
         return formatter
     }()
     
-    @IBAction func add(_ sender: UIBarButtonItem) {
+    @IBAction func completedButton(_ sender: UIBarButtonItem) {
+        self.isCompleted = true
         
-        guard let textTitle = titleTextField.text else{
-            return
+        if isCompleted == false{
+            self.completedButton.image = UIImage(systemName: "checkmark.seal.fil")
         }
-        guard let addNotes = addNotes.text else {
-            return
+        else{
+            self.completedButton.image = UIImage(systemName: "checkmark.seal")
         }
-        
-        var theDatePicker = datePicker?.date
-            
-        if dueDateSwitch.isOn{
-             theDatePicker = nil
-        }
-        
-        
-        let task = Task(title: textTitle, dueDate: theDatePicker, date: Date(), additionalNote: addNotes, isCompleted: false, isLate: false)
-        delegate.passTask(for: task)
-        self.navigationController?.popViewController(animated: true) 
     }
+    
     
     
     override func viewDidLoad() {
@@ -131,5 +124,23 @@ extension DetailViewController{
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        
+        guard let textTitle = titleTextField.text else{
+            return
+        }
+        guard let addNotes = addNotes.text else {
+            return
+        }
+        
+        var theDatePicker = datePicker?.date
+            
+        if dueDateSwitch.isOn{
+             theDatePicker = nil
+        }
+        
+        
+        let task = Task(title: textTitle, dueDate: theDatePicker, date: Date(), additionalNote: addNotes, isCompleted: false, isLate: false)
+        delegate.passTask(for: task)
+        self.navigationController?.popViewController(animated: true)
     }
 }
