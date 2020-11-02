@@ -28,6 +28,15 @@ class TableViewController: UITableViewController {
         }
     }
     
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete{
+            let task = taskStore.allTasks[indexPath.row]
+            
+            taskStore.removeTask(task)
+//            taskStore.deleteTaskFromDisk(forKey: task)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+    }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1

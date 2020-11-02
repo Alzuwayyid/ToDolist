@@ -53,6 +53,26 @@ class TaskStore{
         }
     }
     
+    #warning("Might contain an error")
+//    func deleteTaskFromDisk(forKey key: String){
+//        let url = taskURL(forKey: key)
+//        
+//        do{
+//            try FileManager.default.removeItem(at: url)
+//        }
+//        catch{
+//            print("Error while removeing an item from the disk: \(error)")
+//        }
+//    }
+//    
+//    func taskURL(forKey key: String)->URL{
+//        let documentDirectories = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+//        let documentDirectory = documentDirectories.first!
+//        
+//        return documentDirectory.appendingPathComponent(key)
+//
+//    }
+    
     @objc func saveChanges() -> Bool{
         print("Items will be saved to; \(taskArchiveURL)")
         
