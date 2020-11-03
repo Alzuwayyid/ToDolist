@@ -22,6 +22,7 @@ class TableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.dataSource = self
         tableView.delegate = self
     }
     
@@ -44,6 +45,30 @@ class TableViewController: UITableViewController {
             taskStore.removeTask(task)
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
+        
+    }
+    
+    
+    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let context = UIContextualAction(style: .normal, title: "Completed", handler: {
+            (contextAction,view,boolVlaue) in
+            boolVlaue(true) // pasing true to alllow actions
+            
+        })
+        
+        context.backgroundColor = .systemGreen
+        
+        let swipeAction = UISwipeActionsConfiguration(actions: [context])
+        
+//        let task = taskStore.allTasks[indexPath.row]
+//        task.isCompleted.toggle()
+
+        DispatchQueue.main.async {
+            self.taskStore.allTasks[indexPath.row].isCompleted = true
+            self.tableView.reloadData()
+        }
+        
+        return swipeAction
     }
     
     // Specified only one section

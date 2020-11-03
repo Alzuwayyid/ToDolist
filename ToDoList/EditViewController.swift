@@ -59,6 +59,13 @@ class EditViewController: UIViewController, UITextFieldDelegate,UITextViewDelega
         self.datePicker.date = task.creationDate
         self.isCompleted = task.isCompleted
         
+        if isCompleted{
+            self.completedButton.image = UIImage(systemName: "checkmark.seal.fill")
+        }
+        else{
+            self.completedButton.image = UIImage(systemName: "checkmark.seal")
+        }
+        
     }
         
     

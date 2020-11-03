@@ -40,8 +40,10 @@ class TaskStore{
         print("all items were loaded sucressfully")
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(saveChanges), name: UIScene.didEnterBackgroundNotification, object: nil)
-        
+        notificationCenter.addObserver(self, selector: #selector(saveChanges), name: UIApplication.willTerminateNotification, object: nil)
     }
+    
+    
     
     func addTask(_ task: Task){
         allTasks.append(task)
@@ -57,25 +59,6 @@ class TaskStore{
         
     }
     
-    #warning("Might contain an error")
-//    func deleteTaskFromDisk(forKey key: String){
-//        let url = taskURL(forKey: key)
-//        
-//        do{
-//            try FileManager.default.removeItem(at: url)
-//        }
-//        catch{
-//            print("Error while removeing an item from the disk: \(error)")
-//        }
-//    }
-//    
-//    func taskURL(forKey key: String)->URL{
-//        let documentDirectories = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-//        let documentDirectory = documentDirectories.first!
-//        
-//        return documentDirectory.appendingPathComponent(key)
-//
-//    }
     
     @objc func saveChanges() -> Bool{
         print("Items will be saved to; \(taskArchiveURL)")
