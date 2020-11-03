@@ -6,13 +6,16 @@
 //
 
 import UIKit
-import DrawerView
 
 class TableViewController: UITableViewController {
     
     var taskStore: TaskStore!
-    
-    
+    var newTasks = [Task]()
+    var tags = [String]()
+    var personlTasks: [Task]{
+        taskStore.allTasks.filter({$0.filteringTag == "Personal"})
+    }
+
     let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
@@ -20,33 +23,31 @@ class TableViewController: UITableViewController {
         return formatter
     }()
     
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        let drawerViewController = self.storyboard!.instantiateViewController(identifier: "DrawerViewController")
-        self.addDrawerView(withViewController: drawerViewController)
-        
-        
         tableView.dataSource = self
         tableView.delegate = self
+        
     }
+    
     
     
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        
         self.title = "TahDoodle"
         
-        
+        newTasks = returnTasksWithTags(tags)
+
         // Reloading the table
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
+        
     }
     
     // If the user swipe left, it will delete chosen task from tableView and taskStore
@@ -72,7 +73,7 @@ class TableViewController: UITableViewController {
         
         let swipeAction = UISwipeActionsConfiguration(actions: [context])
         
-
+        
         DispatchQueue.main.async {
             self.taskStore.allTasks[indexPath.row].isCompleted = true
             self.tableView.reloadData()
@@ -88,7 +89,26 @@ class TableViewController: UITableViewController {
     
     // Table view depeands on the tasks count
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return taskStore.allTasks.count
+        
+        if newTasks.isEmpty{
+            return taskStore.allTasks.count
+        }
+        
+        return newTasks.count
+    }
+    
+    func returnTasksWithTags(_ tagsArray: [String]) -> [Task]{
+        
+        var newArr = [Task]()
+        
+        for task in taskStore.allTasks{
+            for tag in tagsArray{
+                if task.filteringTag == tag{
+                    newArr.append(task)
+                }
+            }
+        }
+        return newArr
     }
     
     
@@ -97,19 +117,38 @@ class TableViewController: UITableViewController {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "TaskCell", for: indexPath) as! TaskCell
         // Fetch the current index path row to embed data in it
-        let task = taskStore.allTasks[indexPath.row]
+
+
         
-        // Set title and date to the cell
-        cell.title.text = task.title
-        
-        dateFormatter.dateFormat = "MMM d, h:mm a"
-        
-        cell.additionalNote.text = dateFormatter.string(from: task.dueDate!)
-        
-        if task.isCompleted{
-            cell.completionImage.image = UIImage(systemName: "checkmark.seal.fill")
+        print("----------> empty1 :    \(newTasks.count)")
+
+        if newTasks.count == 0{
+            cell.title.text = taskStore.allTasks[indexPath.row].title
+            
+            dateFormatter.dateFormat = "MMM d, h:mm a"
+            
+            cell.additionalNote.text = dateFormatter.string(from: taskStore.allTasks[indexPath.row].dueDate!)
+
+            
+            if taskStore.allTasks[indexPath.row].isCompleted{
+                cell.completionImage.image = UIImage(systemName: "checkmark.seal.fill")
+            }
+            
+        }
+        else{
+            cell.title.text = newTasks[indexPath.row].title
+            
+            dateFormatter.dateFormat = "MMM d, h:mm a"
+            
+            cell.additionalNote.text = dateFormatter.string(from: newTasks[indexPath.row].dueDate!)
+
+            if newTasks[indexPath.row].isCompleted{
+                cell.completionImage.image = UIImage(systemName: "checkmark.seal.fill")
+            }
+            
         }
         
+
         
         return cell
     }
@@ -130,6 +169,9 @@ class TableViewController: UITableViewController {
                     editViewController.updateDelegate = self
                     editViewController.task = task
                 }
+            case "filter":
+                let filterViewController = segue.destination as! FilterViewController
+                filterViewController.delegate = self
             default:
                 print("Could not perfrom segue")
         }
@@ -141,7 +183,20 @@ class TableViewController: UITableViewController {
 }
 
 // Conforming the update and add tasks, then reloading table view.
-extension TableViewController: passTaskDelegate, updateTaskDelegate{
+extension TableViewController: passTaskDelegate, updateTaskDelegate, passTags{
+    func passTags(tags: [String]) {
+        self.tags = tags
+        
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+        
+        print("Tags were passed successfully:  \(tags)")
+    }
+    
+    
+    
+    
     func updateTask(passedTask oldTask: Task, new newTask: Task) {
         taskStore.removeTask(oldTask)
         taskStore.addTask(newTask)
