@@ -11,50 +11,65 @@ class TableViewController: UITableViewController {
     
     var taskStore: TaskStore!
     
+    let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .none
+        return formatter
+    }()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //        let detailViewController = DetailViewController(nibName: nil, bundle: nil)
-        //        detailViewController.delegate = self
         tableView.delegate = self
     }
+    
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        // Reloading the table
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
     }
     
+    // If the user swipe left, it will delete chosen task from tableView and taskStore
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete{
             let task = taskStore.allTasks[indexPath.row]
             
             taskStore.removeTask(task)
-            //            taskStore.deleteTaskFromDisk(forKey: task)
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
     
+    // Specified only one section
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
+    // Table view depeands on the tasks count
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return taskStore.allTasks.count
     }
     
+    
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "TaskCell", for: indexPath) as! TaskCell
+        // Fetch the current index path row to embed data in it
         let task = taskStore.allTasks[indexPath.row]
         
-        //        cell.textLabel?.text = task.title
-        //        cell.detailTextLabel?.text = task.additionalNote
+        // Set title and date to the cell
         cell.title.text = task.title
-        cell.additionalNote.text = task.additionalNote
+        
+        dateFormatter.dateFormat = "MMM d, h:mm a"
+        
+        cell.additionalNote.text = dateFormatter.string(from: task.dueDate!)
         
         if task.isCompleted{
             cell.completionImage.image = UIImage(systemName: "checkmark.seal.fill")
@@ -64,15 +79,19 @@ class TableViewController: UITableViewController {
         return cell
     }
     
+    // prepare segue for editController and detailController
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
         switch segue.identifier{
             case "showDetails":
                 let detailViewController = segue.destination as! DetailViewController
+                // Setting tableCotroller as detailController delegate to pass the Task data
                 detailViewController.delegate = self
             case "editTask":
                 if let row = tableView.indexPathForSelectedRow?.row{
                     let task = taskStore.allTasks[row]
                     let editViewController = segue.destination as! EditViewController
+                    // setting tableController as editController delegate to update the task
                     editViewController.updateDelegate = self
                     editViewController.task = task
                 }
@@ -86,7 +105,7 @@ class TableViewController: UITableViewController {
     
 }
 
-#warning("Insert code in the update function")
+// Conforming the update and add tasks, then reloading table view.
 extension TableViewController: passTaskDelegate, updateTaskDelegate{
     func updateTask(passedTask oldTask: Task, new newTask: Task) {
         taskStore.removeTask(oldTask)
@@ -97,7 +116,7 @@ extension TableViewController: passTaskDelegate, updateTaskDelegate{
         }
     }
     
-
+    
     
     func passTask(for PassedTask: Task) {
         taskStore.addTask(PassedTask)

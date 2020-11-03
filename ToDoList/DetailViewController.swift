@@ -9,8 +9,7 @@ import UIKit
 
 
 protocol passTaskDelegate{
-    func passTask(/*controller: DetailViewController*/for PassedTask: Task)
-//    func update(for PassedTask: Task)
+    func passTask(for PassedTask: Task)
 }
 
 class DetailViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
@@ -34,6 +33,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UITextViewDel
         return formatter
     }()
     
+    // The image will be changed if the user touches the button
     @IBAction func completedButton(_ sender: UIBarButtonItem) {
         self.isCompleted.toggle()
         
@@ -46,7 +46,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UITextViewDel
     }
     
     
-    
+    // Setting the completion image, confirming to textFieldDelgate and textViewDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         self.completedButton.image = UIImage(systemName: "checkmark.seal")
@@ -79,7 +79,6 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UITextViewDel
         if let currentText = textField.text{
             self.titleTextField.text = currentText
         }
-            print("The current title from didEnd: \(titleTextField.text)")
     }
     
     
@@ -88,7 +87,6 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UITextViewDel
         if let current = textView.text{
             addNotes.text = current
         }
-        print("The current notes: \(addNotes.text)")
     }
 }
 
@@ -100,6 +98,7 @@ extension DetailViewController{
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
+        // these two guards will check whether fields are empty .
         guard let textTitle = titleTextField.text else{
             return
         }
@@ -109,11 +108,14 @@ extension DetailViewController{
         
         var dueDate = datePicker?.date
         
+        // if due date switch was off, set the date to current date
+        #warning("The due date is set to the current date")
         if !dueDateSwitch.isOn{
-            dueDate = nil
+//            dueDate = nil
             dueDate = Date()
         }
-                
+        
+        // Create a new task and pass it as paramter
         let task = Task(title: textTitle, dueDate: dueDate, date: dueDate!, additionalNote: addNotes, isCompleted: isCompleted, isLate: false)
 
         delegate.passTask(for: task)
