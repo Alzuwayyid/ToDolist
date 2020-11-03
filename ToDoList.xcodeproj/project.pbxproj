@@ -20,8 +20,7 @@
 		102EE5852550108100A01295 /* TaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102EE5842550108100A01295 /* TaskCell.swift */; };
 		102EE5922550163900A01295 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102EE5912550163900A01295 /* DetailViewController.swift */; };
 		102EE59A2550827700A01295 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102EE5992550827700A01295 /* EditViewController.swift */; };
-		1092160E25518D7C001C99EF /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1092160D25518D7C001C99EF /* FilterViewController.swift */; };
-		1092161E25519C47001C99EF /* DrawerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1092161D25519C47001C99EF /* DrawerView.swift */; };
+		109216262551C9C6001C99EF /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109216252551C9C6001C99EF /* FilterViewController.swift */; };
 		603D3B05E8AC6569F9E5424A /* Pods_ToDoList.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14097E4B4D3F5FD845BA07F8 /* Pods_ToDoList.framework */; };
 		879EF59F8A7FC85DE228978A /* Pods_ToDoList_ToDoListUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 225245C4AD5AC56F77EFC617 /* Pods_ToDoList_ToDoListUITests.framework */; };
 		CCE627048A77FCC73E3691D2 /* Pods_ToDoListTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83755E279DB0018D75301EFF /* Pods_ToDoListTests.framework */; };
@@ -65,8 +64,7 @@
 		102EE5912550163900A01295 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		102EE5992550827700A01295 /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
 		104E310F26F313037B548A63 /* Pods-ToDoListTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ToDoListTests.debug.xcconfig"; path = "Target Support Files/Pods-ToDoListTests/Pods-ToDoListTests.debug.xcconfig"; sourceTree = "<group>"; };
-		1092160D25518D7C001C99EF /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
-		1092161D25519C47001C99EF /* DrawerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerView.swift; sourceTree = "<group>"; };
+		109216252551C9C6001C99EF /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		14097E4B4D3F5FD845BA07F8 /* Pods_ToDoList.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ToDoList.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		225245C4AD5AC56F77EFC617 /* Pods_ToDoList_ToDoListUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ToDoList_ToDoListUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		521BBB80EE5C89B8D1A3931C /* Pods-ToDoListTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ToDoListTests.release.xcconfig"; path = "Target Support Files/Pods-ToDoListTests/Pods-ToDoListTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -137,12 +135,11 @@
 				102EE5912550163900A01295 /* DetailViewController.swift */,
 				102EE5842550108100A01295 /* TaskCell.swift */,
 				102EE5992550827700A01295 /* EditViewController.swift */,
-				1092160D25518D7C001C99EF /* FilterViewController.swift */,
+				109216252551C9C6001C99EF /* FilterViewController.swift */,
 				102959CC254FF53D00EFFFF5 /* Main.storyboard */,
 				102959CF254FF53E00EFFFF5 /* Assets.xcassets */,
 				102959D1254FF53E00EFFFF5 /* LaunchScreen.storyboard */,
 				102959D4254FF53E00EFFFF5 /* Info.plist */,
-				1092161D25519C47001C99EF /* DrawerView.swift */,
 			);
 			path = ToDoList;
 			sourceTree = "<group>";
@@ -438,8 +435,7 @@
 				102EE59A2550827700A01295 /* EditViewController.swift in Sources */,
 				102EE575254FFAAE00A01295 /* TaskStore.swift in Sources */,
 				102EE570254FF96000A01295 /* Task.swift in Sources */,
-				1092161E25519C47001C99EF /* DrawerView.swift in Sources */,
-				1092160E25518D7C001C99EF /* FilterViewController.swift in Sources */,
+				109216262551C9C6001C99EF /* FilterViewController.swift in Sources */,
 				102959CB254FF53D00EFFFF5 /* TableViewController.swift in Sources */,
 				102959C7254FF53D00EFFFF5 /* AppDelegate.swift in Sources */,
 				102EE5852550108100A01295 /* TaskCell.swift in Sources */,

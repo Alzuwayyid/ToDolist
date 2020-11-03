@@ -126,7 +126,7 @@ extension EditViewController{
             dueDate = Date()
         }
                 
-        let updatedTask = Task(title: textTitle, dueDate: dueDate, date: dueDate!, additionalNote: addNotes, isCompleted: isCompleted, isLate: false)
+        let updatedTask = Task(title: textTitle, dueDate: dueDate, date: dueDate!, additionalNote: addNotes, isCompleted: isCompleted, isLate: false, tag: "")
         updateDelegate.updateTask(passedTask: oldTaskToPass!, new: updatedTask)
 //        delegate.passTask(for: task)
         

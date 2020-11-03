@@ -12,18 +12,28 @@ protocol passTaskDelegate{
     func passTask(for PassedTask: Task)
 }
 
-class DetailViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
+//protocol passTags {
+//    func passTags(for tag: String)
+//}
+
+class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UITextViewDelegate {
     
     var taskStore: TaskStore!
     var task: Task!
     var delegate: passTaskDelegate!
-
+    let pickerData = ["Personal","Grocery","Work","Family"]
+    var tagToPass = ""
+    
+    @IBOutlet var tagFilterPicker: UIPickerView!
     
     @IBOutlet var dueDateSwitch: UISwitch!
     @IBOutlet var titleTextField: UITextField!
     @IBOutlet var addNotes: UITextView!
     @IBOutlet var datePicker: UIDatePicker!
     @IBOutlet var completedButton: UIBarButtonItem!
+    
+//    var passingTagDelegate: passTags!
+    
     var isCompleted: Bool = false
     
     let dateFormatter: DateFormatter = {
@@ -52,6 +62,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UITextViewDel
         self.completedButton.image = UIImage(systemName: "checkmark.seal")
         addNotes.delegate = self
         titleTextField.delegate = self
+        tagFilterPicker.delegate = self
         dueDateSwitch.isOn = false
     }
         
@@ -116,10 +127,34 @@ extension DetailViewController{
         }
         
         // Create a new task and pass it as paramter
-        let task = Task(title: textTitle, dueDate: dueDate, date: dueDate!, additionalNote: addNotes, isCompleted: isCompleted, isLate: false)
+        #warning("Pass is late and corret tag")
+        let task = Task(title: textTitle, dueDate: dueDate, date: dueDate!, additionalNote: addNotes, isCompleted: isCompleted, isLate: false, tag: tagToPass)
 
         delegate.passTask(for: task)
         
+//        passingTagDelegate.passTags(for: tagToPass)
+        
         self.navigationController?.popViewController(animated: true)
     }
+}
+
+
+
+extension DetailViewController: UIPickerViewDataSource{
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return pickerData.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return pickerData[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        tagToPass = pickerData[row]
+    }
+    
 }

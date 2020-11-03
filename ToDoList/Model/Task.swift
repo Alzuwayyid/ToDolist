@@ -14,15 +14,19 @@ class Task: Equatable, Codable{
     var dueDate: Date?
     var creationDate: Date
     var additionalNote: String
+    #warning("Empty string?")
+    
+    var filteringTag = String()
     
     
-    init(title: String, dueDate: Date?, date: Date, additionalNote: String, isCompleted: Bool, isLate: Bool) {
+    init(title: String, dueDate: Date?, date: Date, additionalNote: String, isCompleted: Bool, isLate: Bool, tag: String) {
         self.title = title
         self.dueDate = dueDate
         self.creationDate = date
         self.additionalNote = additionalNote
         self.isLate = isLate
         self.isCompleted = isCompleted
+        self.filteringTag = tag
     }
     
     static func == (lhs: Task, rhs: Task) -> Bool {
@@ -32,6 +36,7 @@ class Task: Equatable, Codable{
             && lhs.additionalNote == rhs.additionalNote
             && lhs.isLate == rhs.isLate
             && lhs.isCompleted == rhs.isCompleted
+            && lhs.filteringTag == rhs.filteringTag
     }
     
 }
