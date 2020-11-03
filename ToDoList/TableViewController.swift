@@ -6,10 +6,12 @@
 //
 
 import UIKit
+import DrawerView
 
 class TableViewController: UITableViewController {
     
     var taskStore: TaskStore!
+    
     
     let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -18,9 +20,15 @@ class TableViewController: UITableViewController {
         return formatter
     }()
     
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        let drawerViewController = self.storyboard!.instantiateViewController(identifier: "DrawerViewController")
+        self.addDrawerView(withViewController: drawerViewController)
+        
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -30,6 +38,10 @@ class TableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        
+        self.title = "TahDoodle"
+        
         
         // Reloading the table
         DispatchQueue.main.async {
@@ -60,8 +72,6 @@ class TableViewController: UITableViewController {
         
         let swipeAction = UISwipeActionsConfiguration(actions: [context])
         
-//        let task = taskStore.allTasks[indexPath.row]
-//        task.isCompleted.toggle()
 
         DispatchQueue.main.async {
             self.taskStore.allTasks[indexPath.row].isCompleted = true

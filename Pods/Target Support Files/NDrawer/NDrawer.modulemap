@@ -1,0 +1,6 @@
+framework module NDrawer {
+  umbrella header "NDrawer-umbrella.h"
+
+  export *
+  module * { export * }
+}
