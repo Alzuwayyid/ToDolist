@@ -99,7 +99,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         tagFilterPicker.layer.masksToBounds = false
         tagFilterPicker.tintColor = .white
         
-
+//        dueDateSwitch.isOn = true
         
         
         navigationController?.navigationBar.tintColor =  UIColor.init(hexaRGB: "#2980b9")

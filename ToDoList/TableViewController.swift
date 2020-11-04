@@ -121,30 +121,35 @@ class TableViewController: UITableViewController {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "TaskCell", for: indexPath) as! TaskCell
         // Fetch the current index path row to embed data in it
-
-
-        
-
-
-        
         
         if newTasks.count == 0{
             cell.title.text = taskStore.allTasks[indexPath.row].title
             
             dateFormatter.dateFormat = "MMM d, h:mm a"
             
-            cell.additionalNote.text = dateFormatter.string(from: taskStore.allTasks[indexPath.row].dueDate!)
-
-            
             if taskStore.allTasks[indexPath.row].isCompleted{
-                cell.completionImage.image = UIImage(systemName: "checkmark.seal.fill")
+                cell.completionImage.image =  UIImage(systemName: "checkmark.seal.fill")
+//                cell.completionImage.image!.withRenderingMode(.alwaysTemplate)
+                cell.completionImage.tintColor = .systemGreen
             }
             else{
-                cell.completionImage.image = UIImage(systemName: "checkmark.seal")
+                if taskStore.allTasks[indexPath.row].dueDate! < Date(){
+                    cell.completionImage.image = UIImage(systemName: "exclamationmark.circle.fill")
+                    cell.completionImage.image!.withRenderingMode(.alwaysTemplate)
+                    cell.completionImage.tintColor = UIColor.init(hexaRGB: "#e74c3c")
+                    
+                }
+                else{
+                    cell.completionImage.image = UIImage(systemName: "clock")
+                    cell.completionImage.tintColor = .blue
+                }
+
             }
             
         }
         else{
+            #warning("You are here")
+
             cell.title.text = newTasks[indexPath.row].title
             
             dateFormatter.dateFormat = "MMM d, h:mm a"
@@ -153,15 +158,28 @@ class TableViewController: UITableViewController {
 
             if newTasks[indexPath.row].isCompleted{
                 cell.completionImage.image = UIImage(systemName: "checkmark.seal.fill")
+                cell.completionImage.tintColor = .systemGreen
             }
             else{
-                cell.completionImage.image = UIImage(systemName: "checkmark.seal")
+                if taskStore.allTasks[indexPath.row].dueDate! < Date(){
+                    cell.completionImage.image = UIImage(systemName: "exclamationmark.circle.fill")
+                    cell.completionImage.image!.withRenderingMode(.alwaysTemplate)
+                    cell.completionImage.tintColor = UIColor.init(hexaRGB: "#e74c3c")
+                    
+                }
+                else{
+                    cell.completionImage.image = UIImage(systemName: "clock")
+                    cell.completionImage.tintColor = .blue
+                }
+                
             }
             
         }
         
-
+        cell.additionalNote.text = dateFormatter.string(from: taskStore.allTasks[indexPath.row].dueDate!)
         
+        print("---------->  due Date:   \(taskStore.allTasks[indexPath.row].dueDate!)")
+        print("----------> current Date:  \(Date())")
         return cell
     }
     
@@ -194,17 +212,24 @@ class TableViewController: UITableViewController {
     
     
     
+
 }
 
 // Conforming the update and add tasks, then reloading table view.
 extension TableViewController: passTaskDelegate, updateTaskDelegate, passTags{
-    func passTags(tags: [String]) {
-        self.tags = tags
+    func passTags(tags: [String], clearStore: Bool) {
         
+        if clearStore == true{
+            taskStore.removeAllTasks(clearTasks: true)
+        }
+        else{
+            self.tags = tags
+        }
+
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
-        
+
         print("Tags were passed successfully:  \(tags)")
     }
     
