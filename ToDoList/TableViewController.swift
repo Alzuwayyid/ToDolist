@@ -31,10 +31,14 @@ class TableViewController: UITableViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
+        view.backgroundColor = UIColor.init(hexaRGB: "#2c3e50")
+        
+
+        
     }
     
     
-    
+  
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -120,8 +124,10 @@ class TableViewController: UITableViewController {
 
 
         
-        print("----------> empty1 :    \(newTasks.count)")
 
+        
+        
+        
         if newTasks.count == 0{
             cell.title.text = taskStore.allTasks[indexPath.row].title
             
@@ -152,6 +158,8 @@ class TableViewController: UITableViewController {
         
         return cell
     }
+    
+     
     
     // prepare segue for editController and detailController
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
