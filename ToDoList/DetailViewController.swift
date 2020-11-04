@@ -93,6 +93,12 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         navigationController?.navigationBar.tintColor =  UIColor.init(hexaRGB: "#2980b9")
         navigationController?.navigationBar.barTintColor = UIColor.init(hexaRGB: "#2c3e50")
         
+        
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+
+            
+        
         self.completedButton.image = UIImage(systemName: "checkmark.seal")
         addNotes.delegate = self
         titleTextField.delegate = self
@@ -100,20 +106,23 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         dueDateSwitch.isOn = false
     }
     
+    @objc func keyboardWillShow(notification: NSNotification) {
+        guard let userInfo = notification.userInfo else {return}
+        
+        guard let keyboardSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {return}
+        
+        let keyboardFrame = keyboardSize.cgRectValue
+        
+        if self.view.frame.origin.y == 0{
+            self.view.frame.origin.y -= keyboardFrame.height
+        }
+    }
     
-//    @objc func keyboardWillShow(notification: NSNotification) {
-//        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-//            if self.view.frame.origin.y == 0 {
-//                self.view.frame.origin.y -= keyboardSize.height
-//            }
-//        }
-//    }
-//
-//    @objc func keyboardWillHide(notification: NSNotification) {
-//        if self.view.frame.origin.y != 0 {
-//            self.view.frame.origin.y = 0
-//        }
-//    }
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0{
+            self.view.frame.origin.y = 0
+        }
+    }
     
     // This function will move to the nextField when return button is pressed
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -133,21 +142,39 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         return true
     }
     
-    func textViewDidBeginEditing(_ textView: UITextView) {
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        NotificationCenter.default.removeObserver(self)
+        return true
     }
     
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        return true
+    }
+    
+    
+    
     func textFieldDidEndEditing(_ textField: UITextField) {
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         if let currentText = textField.text{
             self.titleTextField.text = currentText
         }
     }
     
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n"{
+            textView.resignFirstResponder()
+            return false
+        }
+        return true
+    }
+    
+    
     
 
      func textViewDidEndEditing(_ textView: UITextView) {
+
         if let current = textView.text{
             addNotes.text = current
         }
