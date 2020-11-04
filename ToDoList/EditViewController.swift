@@ -18,6 +18,7 @@ class EditViewController: UIViewController, UITextFieldDelegate,UITextViewDelega
     var task: Task!
     var delegate: passTaskDelegate!
     var updateDelegate: updateTaskDelegate!
+    var pastDue = Date()
     
     @IBOutlet var dueDateSwitch: UISwitch!
     @IBOutlet var titleTextField: UITextField!
@@ -55,11 +56,12 @@ class EditViewController: UIViewController, UITextFieldDelegate,UITextViewDelega
         titleTextField.delegate = self
         
         self.addNotes.text = task.additionalNote
-        self.datePicker.date = task.dueDate ?? task.creationDate
+//        self.datePicker.date = task.dueDate ?? task.creationDate
         self.titleTextField.text = task.title
         self.datePicker.date = task.creationDate
         self.isCompleted = task.isCompleted
-        
+        self.pastDue = task.dueDate!
+        self.datePicker.isEnabled = false
         
         addNotes.layer.borderWidth = 0.5
         addNotes.layer.cornerRadius = 10
@@ -147,7 +149,7 @@ extension EditViewController{
             dueDate = Date()
         }
                 
-        let updatedTask = Task(title: textTitle, dueDate: dueDate, date: dueDate!, additionalNote: addNotes, isCompleted: isCompleted, isLate: false, tag: "")
+        let updatedTask = Task(title: textTitle, dueDate: pastDue, date: dueDate!, additionalNote: addNotes, isCompleted: isCompleted, isLate: false, tag: "")
         updateDelegate.updateTask(passedTask: oldTaskToPass!, new: updatedTask)
 //        delegate.passTask(for: task)
         
