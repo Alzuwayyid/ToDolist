@@ -218,9 +218,9 @@ extension DetailViewController{
         }
         
         // Create a new task and pass it as paramter
-        #warning("Checking if the task entered is empty")
+        #warning("You change the due date to Date()")
         if !textTitle.isEmpty{
-            let task = Task(title: textTitle, dueDate: dueDate, date: dueDate!, additionalNote: addNotes, isCompleted: isCompleted, isLate: false, tag: tagToPass)
+            let task = Task(title: textTitle, dueDate: dueDate, date: Date(), additionalNote: addNotes, isCompleted: isCompleted, isLate: false, tag: tagToPass)
 
             delegate.passTask(for: task)
         }

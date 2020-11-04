@@ -24,6 +24,10 @@ class FilterViewController: UIViewController {
     
     @IBAction func clearTasks(_ sender: UIButton) {
         self.isItCleared = true
+        
+        let alert = UIAlertController(title: "Tasks were removed", message: "All clear sir!", preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "Continue", style: UIAlertAction.Style.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
     
     override func viewDidLoad() {
