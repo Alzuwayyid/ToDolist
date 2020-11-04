@@ -60,6 +60,26 @@ class EditViewController: UIViewController, UITextFieldDelegate,UITextViewDelega
         self.datePicker.date = task.creationDate
         self.isCompleted = task.isCompleted
         
+        
+        addNotes.layer.borderWidth = 0.5
+        addNotes.layer.cornerRadius = 10
+        addNotes.layer.shadowOffset = CGSize(width: 1.0, height: 1.0)
+        addNotes.layer.shadowOpacity = 0.3
+        addNotes.layer.shadowColor = UIColor.black.cgColor
+        addNotes.layer.shadowRadius = 5
+        addNotes.layer.masksToBounds = false
+        
+//        titleTextField.layer.borderWidth = 0.5
+        titleTextField.layer.cornerRadius = 10
+        titleTextField.layer.shadowOffset = CGSize(width: 1.0, height: 1.0)
+        titleTextField.layer.shadowOpacity = 0.3
+        titleTextField.layer.shadowColor = UIColor.black.cgColor
+        titleTextField.layer.shadowRadius = 5
+        titleTextField.layer.masksToBounds = false
+        
+        
+        
+
         if isCompleted{
             self.completedButton.image = UIImage(systemName: "checkmark.seal.fill")
         }

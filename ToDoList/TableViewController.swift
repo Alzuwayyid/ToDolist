@@ -125,7 +125,7 @@ class TableViewController: UITableViewController {
 
         
 
-        
+
         
         
         if newTasks.count == 0{
@@ -139,6 +139,9 @@ class TableViewController: UITableViewController {
             if taskStore.allTasks[indexPath.row].isCompleted{
                 cell.completionImage.image = UIImage(systemName: "checkmark.seal.fill")
             }
+            else{
+                cell.completionImage.image = UIImage(systemName: "checkmark.seal")
+            }
             
         }
         else{
@@ -150,6 +153,9 @@ class TableViewController: UITableViewController {
 
             if newTasks[indexPath.row].isCompleted{
                 cell.completionImage.image = UIImage(systemName: "checkmark.seal.fill")
+            }
+            else{
+                cell.completionImage.image = UIImage(systemName: "checkmark.seal")
             }
             
         }
