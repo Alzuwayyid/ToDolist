@@ -59,14 +59,70 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     // Setting the completion image, confirming to textFieldDelgate and textViewDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        #warning("Working here")
+//        titleTextField.setBorder(UIColor(red: 41, green: 128, blue: 185, alpha: 0), width: CGFloat(20))
+        addNotes.layer.borderWidth = 0.5
+        addNotes.layer.cornerRadius = 10
+        addNotes.layer.shadowOffset = CGSize(width: 1.0, height: 1.0)
+        addNotes.layer.shadowOpacity = 1.0
+        addNotes.layer.shadowColor = UIColor.black.cgColor
+        addNotes.layer.shadowRadius = 5
+        addNotes.layer.masksToBounds = false
+        
+//        titleTextField.layer.borderWidth = 0.5
+        titleTextField.layer.cornerRadius = 10
+        titleTextField.layer.shadowOffset = CGSize(width: 1.0, height: 1.0)
+        titleTextField.layer.shadowOpacity = 1.0
+        titleTextField.layer.shadowColor = UIColor.black.cgColor
+        titleTextField.layer.shadowRadius = 5
+        titleTextField.layer.masksToBounds = false
+        
+        
+        tagFilterPicker.layer.cornerRadius = 10
+        tagFilterPicker.layer.shadowOffset = CGSize(width: 1.0, height: 1.0)
+        tagFilterPicker.layer.shadowOpacity = 1.0
+        tagFilterPicker.layer.shadowColor = UIColor.black.cgColor
+        tagFilterPicker.layer.shadowRadius = 5
+        tagFilterPicker.layer.masksToBounds = false
+        tagFilterPicker.tintColor = .white
+        
+
+        
+        
+        navigationController?.navigationBar.tintColor =  UIColor.init(hexaRGB: "#2980b9")
+        navigationController?.navigationBar.barTintColor = UIColor.init(hexaRGB: "#2c3e50")
+        
+        
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+
+            
+        
         self.completedButton.image = UIImage(systemName: "checkmark.seal")
         addNotes.delegate = self
         titleTextField.delegate = self
         tagFilterPicker.delegate = self
         dueDateSwitch.isOn = false
     }
-        
     
+    @objc func keyboardWillShow(notification: NSNotification) {
+        guard let userInfo = notification.userInfo else {return}
+        
+        guard let keyboardSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {return}
+        
+        let keyboardFrame = keyboardSize.cgRectValue
+        
+        if self.view.frame.origin.y == 0{
+            self.view.frame.origin.y -= keyboardFrame.height
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0{
+            self.view.frame.origin.y = 0
+        }
+    }
     
     // This function will move to the nextField when return button is pressed
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -86,15 +142,39 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         return true
     }
     
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        NotificationCenter.default.removeObserver(self)
+        return true
+    }
+    
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        return true
+    }
+    
+    
+    
     func textFieldDidEndEditing(_ textField: UITextField) {
         if let currentText = textField.text{
             self.titleTextField.text = currentText
         }
     }
     
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n"{
+            textView.resignFirstResponder()
+            return false
+        }
+        return true
+    }
     
     
+    
+
      func textViewDidEndEditing(_ textView: UITextView) {
+
         if let current = textView.text{
             addNotes.text = current
         }
@@ -119,8 +199,6 @@ extension DetailViewController{
         
         var dueDate = datePicker?.date
         
-        // if due date switch was off, set the date to current date
-        #warning("The due date is set to the current date")
         if !dueDateSwitch.isOn{
 //            dueDate = nil
             dueDate = Date()
@@ -157,4 +235,49 @@ extension DetailViewController: UIPickerViewDataSource{
         tagToPass = pickerData[row]
     }
     
+}
+
+
+
+extension UIColor {
+    convenience init?(hexaRGB: String, alpha: CGFloat = 1) {
+        var chars = Array(hexaRGB.hasPrefix("#") ? hexaRGB.dropFirst() : hexaRGB[...])
+        switch chars.count {
+        case 3: chars = chars.flatMap { [$0, $0] }
+        case 6: break
+        default: return nil
+        }
+        self.init(red: .init(strtoul(String(chars[0...1]), nil, 16)) / 255,
+                green: .init(strtoul(String(chars[2...3]), nil, 16)) / 255,
+                 blue: .init(strtoul(String(chars[4...5]), nil, 16)) / 255,
+                alpha: alpha)
+    }
+
+    convenience init?(hexaRGBA: String) {
+        var chars = Array(hexaRGBA.hasPrefix("#") ? hexaRGBA.dropFirst() : hexaRGBA[...])
+        switch chars.count {
+        case 3: chars = chars.flatMap { [$0, $0] }; fallthrough
+        case 6: chars.append(contentsOf: ["F","F"])
+        case 8: break
+        default: return nil
+        }
+        self.init(red: .init(strtoul(String(chars[0...1]), nil, 16)) / 255,
+                green: .init(strtoul(String(chars[2...3]), nil, 16)) / 255,
+                 blue: .init(strtoul(String(chars[4...5]), nil, 16)) / 255,
+                alpha: .init(strtoul(String(chars[6...7]), nil, 16)) / 255)
+    }
+
+    convenience init?(hexaARGB: String) {
+        var chars = Array(hexaARGB.hasPrefix("#") ? hexaARGB.dropFirst() : hexaARGB[...])
+        switch chars.count {
+        case 3: chars = chars.flatMap { [$0, $0] }; fallthrough
+        case 6: chars.append(contentsOf: ["F","F"])
+        case 8: break
+        default: return nil
+        }
+        self.init(red: .init(strtoul(String(chars[2...3]), nil, 16)) / 255,
+                green: .init(strtoul(String(chars[4...5]), nil, 16)) / 255,
+                 blue: .init(strtoul(String(chars[6...7]), nil, 16)) / 255,
+                alpha: .init(strtoul(String(chars[0...1]), nil, 16)) / 255)
+    }
 }

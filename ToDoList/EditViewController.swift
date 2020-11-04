@@ -49,6 +49,7 @@ class EditViewController: UIViewController, UITextFieldDelegate,UITextViewDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
+                
         self.completedButton.image = UIImage(systemName: "checkmark.seal")
         addNotes.delegate = self
         titleTextField.delegate = self
