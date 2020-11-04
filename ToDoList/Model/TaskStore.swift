@@ -59,6 +59,13 @@ class TaskStore{
         
     }
     
+    func removeAllTasks(clearTasks: Bool){
+        
+        if clearTasks == true{
+            allTasks.removeAll()
+        }
+    }
+    
     
     @objc func saveChanges() -> Bool{
         print("Items will be saved to; \(taskArchiveURL)")
