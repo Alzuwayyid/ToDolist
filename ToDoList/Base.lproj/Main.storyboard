@@ -12,20 +12,22 @@
         <scene sceneID="fbh-3Y-1yE">
             <objects>
                 <tableViewController storyboardIdentifier="TableViewController" title="TahDoodl" id="63W-gm-XfP" customClass="TableViewController" customModule="ToDoList" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="KpD-7c-FgV">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" estimatedRowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" id="KpD-7c-FgV">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="sectionIndexBackgroundColor" red="0.17254901960784313" green="0.24313725490196078" blue="0.31372549019607843" alpha="0.84705882352941175" colorSpace="calibratedRGB"/>
+                        <color key="sectionIndexTrackingBackgroundColor" red="0.17254901960784313" green="0.24313725490196078" blue="0.31372549019607843" alpha="0.84705882352941175" colorSpace="calibratedRGB"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TaskCell" id="nD0-Ak-GQf" customClass="TaskCell" customModule="ToDoList" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                <rect key="frame" x="0.0" y="28" width="414" height="60"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="nD0-Ak-GQf" id="hQk-q3-SlE">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" axis="vertical" alignment="top" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="EyD-46-CYm">
-                                            <rect key="frame" x="10" y="3" width="33.5" height="37.5"/>
+                                            <rect key="frame" x="10" y="11.5" width="33.5" height="37.5"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jtW-bI-u3J">
                                                     <rect key="frame" x="0.0" y="0.0" width="28.5" height="20.5"/>
@@ -42,12 +44,13 @@
                                             </subviews>
                                         </stackView>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="249" verticalHuggingPriority="249" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" image="checkmark.seal" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="ZMV-Oz-9LH">
-                                            <rect key="frame" x="382.5" y="3.5" width="21.5" height="36.5"/>
+                                            <rect key="frame" x="382.5" y="11.5" width="21.5" height="36.5"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="35" id="kpr-LM-dIq"/>
                                             </constraints>
                                         </imageView>
                                     </subviews>
+                                    <color key="backgroundColor" red="0.16078431372549018" green="0.50196078431372548" blue="0.72549019607843135" alpha="0.84705882352941175" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstItem="ZMV-Oz-9LH" firstAttribute="centerY" secondItem="EyD-46-CYm" secondAttribute="centerY" id="Jhp-0p-1B3"/>
                                         <constraint firstItem="EyD-46-CYm" firstAttribute="leading" secondItem="hQk-q3-SlE" secondAttribute="leading" constant="10" id="aml-SE-lW7"/>
@@ -79,7 +82,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="plus" catalog="system" id="sAC-tr-4eW">
                             <connections>
-                                <segue destination="nbt-gd-KKO" kind="show" identifier="showDetails" id="WYx-rI-CzP"/>
+                                <segue destination="nbt-gd-KKO" kind="presentation" identifier="showDetails" modalPresentationStyle="fullScreen" modalTransitionStyle="flipHorizontal" id="WYx-rI-CzP"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -165,10 +168,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="fai-Ij-bNe">
-                                <rect key="frame" x="10" y="126" width="394" height="709.5"/>
+                                <rect key="frame" x="10" y="82" width="394" height="753.5"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Task title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ECp-gL-8Zw">
-                                        <rect key="frame" x="0.0" y="0.0" width="394" height="65.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="394" height="109.5"/>
                                         <color key="backgroundColor" red="0.16078431372549018" green="0.50196078431372548" blue="0.72549019607843135" alpha="0.84999999999999998" colorSpace="custom" customColorSpace="displayP3"/>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -176,7 +179,7 @@
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="61y-Ha-fFF">
-                                        <rect key="frame" x="0.0" y="86.5" width="394" height="31"/>
+                                        <rect key="frame" x="0.0" y="130.5" width="394" height="31"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Due date:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lG6-sn-0rW">
                                                 <rect key="frame" x="0.0" y="0.0" width="324" height="31"/>
@@ -186,31 +189,47 @@
                                             </label>
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="M7P-6n-ezy">
                                                 <rect key="frame" x="345" y="0.0" width="51" height="31"/>
-                                                <color key="onTintColor" red="0.75294117647058822" green="0.22352941176470587" blue="0.16862745098039217" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <color key="onTintColor" red="0.10196078431372549" green="0.16470588235294117" blue="0.21568627450980393" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <color key="thumbTintColor" red="0.02282408252" green="0.37347230320000002" blue="0.54120028019999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             </switch>
                                         </subviews>
                                     </stackView>
                                     <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TRP-Iy-krs">
-                                        <rect key="frame" x="0.0" y="138.5" width="394" height="216"/>
+                                        <rect key="frame" x="0.0" y="182.5" width="394" height="216"/>
                                     </pickerView>
                                     <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="oBL-Yq-u93">
-                                        <rect key="frame" x="0.0" y="375.5" width="394" height="216"/>
+                                        <rect key="frame" x="0.0" y="419.5" width="394" height="216"/>
                                     </datePicker>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Additional notes:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Kv-p8-6s5">
-                                        <rect key="frame" x="0.0" y="612.5" width="394" height="20"/>
+                                        <rect key="frame" x="0.0" y="656.5" width="394" height="20"/>
                                         <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="17"/>
                                         <color key="textColor" systemColor="systemBlueColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="scaleToFill" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xUF-bi-oDa">
-                                        <rect key="frame" x="0.0" y="653.5" width="394" height="56"/>
+                                        <rect key="frame" x="0.0" y="697.5" width="394" height="56"/>
                                         <color key="backgroundColor" red="0.031372549019607843" green="0.46274509803921571" blue="0.67450980392156867" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <attributedString key="attributedText"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no"/>
                                     </textView>
                                 </subviews>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i3E-hh-Dup">
+                                <rect key="frame" x="33" y="34" width="21" height="26"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="arrowshape.turn.up.backward" catalog="system"/>
+                                <connections>
+                                    <action selector="dissMiss:" destination="nbt-gd-KKO" eventType="touchUpInside" id="7Ip-te-sDS"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="os4-xM-n9j">
+                                <rect key="frame" x="344" y="38" width="22" height="22"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="checkmark.seal" catalog="system"/>
+                                <connections>
+                                    <action selector="completedButton:" destination="nbt-gd-KKO" eventType="touchUpInside" id="e3k-kq-ZO1"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="P1y-EF-IzE"/>
                         <color key="backgroundColor" red="0.17254901960784313" green="0.24313725490196078" blue="0.31372549019607843" alpha="0.84999999999999998" colorSpace="custom" customColorSpace="displayP3"/>
@@ -222,15 +241,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="RlK-Ke-Xs0">
-                        <barButtonItem key="rightBarButtonItem" image="checkmark.seal.fill" catalog="system" id="UWS-fj-D0c">
-                            <connections>
-                                <action selector="completedButton:" destination="nbt-gd-KKO" id="mcI-uT-IN2"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="checkmark.seal.fill" catalog="system" id="UWS-fj-D0c"/>
                     </navigationItem>
                     <connections>
                         <outlet property="addNotes" destination="xUF-bi-oDa" id="srn-QB-HDT"/>
-                        <outlet property="completedButton" destination="UWS-fj-D0c" id="OMR-yH-fXJ"/>
+                        <outlet property="completedButton" destination="os4-xM-n9j" id="MOj-h0-i8B"/>
                         <outlet property="datePicker" destination="oBL-Yq-u93" id="3uB-mG-uPy"/>
                         <outlet property="dueDateSwitch" destination="M7P-6n-ezy" id="UXL-OC-iha"/>
                         <outlet property="tagFilterPicker" destination="TRP-Iy-krs" id="5As-to-GVs"/>
@@ -239,7 +254,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="y26-Uo-GZJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1646" y="134"/>
+            <point key="canvasLocation" x="1644.9275362318842" y="133.92857142857142"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="yS9-UO-TYw">
@@ -350,6 +365,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="arrowshape.turn.up.backward" catalog="system" width="128" height="106"/>
         <image name="checkmark.seal" catalog="system" width="128" height="128"/>
         <image name="checkmark.seal.fill" catalog="system" width="128" height="128"/>
         <image name="gear" catalog="system" width="128" height="119"/>

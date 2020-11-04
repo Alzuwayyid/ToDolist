@@ -30,7 +30,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     @IBOutlet var titleTextField: UITextField!
     @IBOutlet var addNotes: UITextView!
     @IBOutlet var datePicker: UIDatePicker!
-    @IBOutlet var completedButton: UIBarButtonItem!
+    @IBOutlet var completedButton: UIButton!
     
 //    var passingTagDelegate: passTags!
     
@@ -43,16 +43,28 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         return formatter
     }()
     
+    
+    @IBAction func dissMiss(_ sender: UIButton) {
+        navigationController?.popViewController(animated: true)
+
+        dismiss(animated: true, completion: nil)
+        
+    }
     // The image will be changed if the user touches the button
-    @IBAction func completedButton(_ sender: UIBarButtonItem) {
+    @IBAction func completedButton(_ sender: UIButton) {
         self.isCompleted.toggle()
         
-        if isCompleted{
-            self.completedButton.image = UIImage(systemName: "checkmark.seal.fill")
+        DispatchQueue.main.async {
+            if self.isCompleted{
+                self.completedButton.imageView!.image = UIImage(systemName: "checkmark.seal.fill")
+            }
+            else{
+                self.completedButton.imageView?.image = UIImage(systemName: "checkmark.seal")
+            }
+            
         }
-        else{
-            self.completedButton.image = UIImage(systemName: "checkmark.seal")
-        }
+        
+
     }
     
     
@@ -65,7 +77,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         addNotes.layer.borderWidth = 0.5
         addNotes.layer.cornerRadius = 10
         addNotes.layer.shadowOffset = CGSize(width: 1.0, height: 1.0)
-        addNotes.layer.shadowOpacity = 1.0
+        addNotes.layer.shadowOpacity = 0.3
         addNotes.layer.shadowColor = UIColor.black.cgColor
         addNotes.layer.shadowRadius = 5
         addNotes.layer.masksToBounds = false
@@ -73,7 +85,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
 //        titleTextField.layer.borderWidth = 0.5
         titleTextField.layer.cornerRadius = 10
         titleTextField.layer.shadowOffset = CGSize(width: 1.0, height: 1.0)
-        titleTextField.layer.shadowOpacity = 1.0
+        titleTextField.layer.shadowOpacity = 0.3
         titleTextField.layer.shadowColor = UIColor.black.cgColor
         titleTextField.layer.shadowRadius = 5
         titleTextField.layer.masksToBounds = false
@@ -81,7 +93,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         
         tagFilterPicker.layer.cornerRadius = 10
         tagFilterPicker.layer.shadowOffset = CGSize(width: 1.0, height: 1.0)
-        tagFilterPicker.layer.shadowOpacity = 1.0
+        tagFilterPicker.layer.shadowOpacity = 0.3
         tagFilterPicker.layer.shadowColor = UIColor.black.cgColor
         tagFilterPicker.layer.shadowRadius = 5
         tagFilterPicker.layer.masksToBounds = false
@@ -99,7 +111,8 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
 
             
         
-        self.completedButton.image = UIImage(systemName: "checkmark.seal")
+        self.completedButton.imageView?.image = UIImage(systemName: "checkmark.seal")
+        
         addNotes.delegate = self
         titleTextField.delegate = self
         tagFilterPicker.delegate = self
@@ -205,10 +218,13 @@ extension DetailViewController{
         }
         
         // Create a new task and pass it as paramter
-        #warning("Pass is late and corret tag")
-        let task = Task(title: textTitle, dueDate: dueDate, date: dueDate!, additionalNote: addNotes, isCompleted: isCompleted, isLate: false, tag: tagToPass)
+        #warning("Checking if the task entered is empty")
+        if !textTitle.isEmpty{
+            let task = Task(title: textTitle, dueDate: dueDate, date: dueDate!, additionalNote: addNotes, isCompleted: isCompleted, isLate: false, tag: tagToPass)
 
-        delegate.passTask(for: task)
+            delegate.passTask(for: task)
+        }
+
         
 //        passingTagDelegate.passTags(for: tagToPass)
         
