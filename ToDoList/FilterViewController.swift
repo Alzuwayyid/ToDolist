@@ -24,6 +24,8 @@ class FilterViewController: UIViewController {
     var taskStore: TaskStore!
 
 
+    
+    
     @IBAction func personalSwitch(_ sender: UISwitch) {
         var counter = 0
         for task in taskStore.allTasks{
