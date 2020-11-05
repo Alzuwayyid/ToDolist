@@ -14,7 +14,7 @@ class Task: Equatable, Codable{
     var dueDate: Date?
     var creationDate: Date
     var additionalNote: String
-    #warning("Empty string?")
+    var id: String
     
     var filteringTag = String()
     
@@ -27,6 +27,7 @@ class Task: Equatable, Codable{
         self.isLate = isLate
         self.isCompleted = isCompleted
         self.filteringTag = tag
+        self.id = UUID().uuidString
     }
     
     static func == (lhs: Task, rhs: Task) -> Bool {
