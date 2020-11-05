@@ -7,35 +7,25 @@
 
 import UIKit
 
-
+/**
+ - parameters:
+ - passedTask: Task that will be passed to the delegated ViewController
+ */
 protocol passTaskDelegate{
     func passTask(for PassedTask: Task)
 }
 
-//protocol passTags {
-//    func passTags(for tag: String)
-//}
+
 
 class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UITextViewDelegate {
     
+    // MARK: - Properties
     var taskStore: TaskStore!
     var task: Task!
     var delegate: passTaskDelegate!
     let pickerData = ["Personal","Grocery","Work","Family"]
     var tagToPass = ""
-    
-    @IBOutlet var tagFilterPicker: UIPickerView!
-    
-    @IBOutlet var dueDateSwitch: UISwitch!
-    @IBOutlet var titleTextField: UITextField!
-    @IBOutlet var addNotes: UITextView!
-    @IBOutlet var datePicker: UIDatePicker!
-    @IBOutlet var completedButton: UIButton!
-    
-//    var passingTagDelegate: passTags!
-    
     var isCompleted: Bool = false
-    
     let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
@@ -43,7 +33,17 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         return formatter
     }()
     
+    // MARK: - IBOutlets
     
+    @IBOutlet var tagFilterPicker: UIPickerView!
+    @IBOutlet var dueDateSwitch: UISwitch!
+    @IBOutlet var titleTextField: UITextField!
+    @IBOutlet var addNotes: UITextView!
+    @IBOutlet var datePicker: UIDatePicker!
+    @IBOutlet var completedButton: UIButton!
+        
+
+    // MARK: - IBActions
     @IBAction func dissMiss(_ sender: UIButton) {
         navigationController?.popViewController(animated: true)
 
@@ -72,8 +72,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        #warning("Working here")
-//        titleTextField.setBorder(UIColor(red: 41, green: 128, blue: 185, alpha: 0), width: CGFloat(20))
+        // MARK: - layer modifications
         addNotes.layer.borderWidth = 0.5
         addNotes.layer.cornerRadius = 10
         addNotes.layer.shadowOffset = CGSize(width: 1.0, height: 1.0)
@@ -82,7 +81,6 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         addNotes.layer.shadowRadius = 5
         addNotes.layer.masksToBounds = false
         
-//        titleTextField.layer.borderWidth = 0.5
         titleTextField.layer.cornerRadius = 10
         titleTextField.layer.shadowOffset = CGSize(width: 1.0, height: 1.0)
         titleTextField.layer.shadowOpacity = 0.3
@@ -99,29 +97,25 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         tagFilterPicker.layer.masksToBounds = false
         tagFilterPicker.tintColor = .white
         
-//        dueDateSwitch.isOn = true
-        
-        
+        // Setting the bar color
         navigationController?.navigationBar.tintColor =  UIColor.init(hexaRGB: "#2980b9")
         navigationController?.navigationBar.barTintColor = UIColor.init(hexaRGB: "#2c3e50")
-        
-        
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
-
-            
-        
+        // Setting the default icon for the task status
         self.completedButton.imageView?.image = UIImage(systemName: "checkmark.seal")
         
+        
+        // MARK: - self.delegates
         addNotes.delegate = self
         titleTextField.delegate = self
         tagFilterPicker.delegate = self
         dueDateSwitch.isOn = false
     }
     
+    // MARK: - Keyboard show/hide, with textField and textView dataSource
+    
     @objc func keyboardWillShow(notification: NSNotification) {
         guard let userInfo = notification.userInfo else {return}
-        
+        // Taking the keyboard size from userInfo
         guard let keyboardSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {return}
         
         let keyboardFrame = keyboardSize.cgRectValue
@@ -155,18 +149,18 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         return true
     }
     
-    
+    // If the user tap on textField, unregister from the notificationCenter
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         NotificationCenter.default.removeObserver(self)
         return true
     }
     
+    // Observing notification when textView is pressed
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         return true
     }
-    
     
     
     func textFieldDidEndEditing(_ textField: UITextField) {
@@ -175,6 +169,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         }
     }
     
+    // if textView is empty, resignFirstResponder
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if text == "\n"{
             textView.resignFirstResponder()
@@ -182,9 +177,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
         }
         return true
     }
-    
-    
-    
+        
 
      func textViewDidEndEditing(_ textView: UITextView) {
 
@@ -195,9 +188,8 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
 }
 
 
+// MARK: - Passing data for the delegate
 extension DetailViewController{
-    
-    
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -212,28 +204,29 @@ extension DetailViewController{
         
         var dueDate = datePicker?.date
         
+        // if the due date switch was OFF, pass currentDate as the dueDate.
         if !dueDateSwitch.isOn{
-//            dueDate = nil
             dueDate = Date()
         }
         
-        // Create a new task and pass it as paramter
-        #warning("You change the due date to Date()")
+        /*
+         - if the user did type any data:
+         Create a new Task instance, and set all it's properties to the data that was provided by the user.
+         pass the data by the class delegate.
+         */
+        
         if !textTitle.isEmpty{
             let task = Task(title: textTitle, dueDate: dueDate, date: Date(), additionalNote: addNotes, isCompleted: isCompleted, isLate: false, tag: tagToPass)
 
             delegate.passTask(for: task)
         }
 
-        
-//        passingTagDelegate.passTags(for: tagToPass)
-        
         self.navigationController?.popViewController(animated: true)
     }
 }
 
 
-
+// MARK: - pickerView dataSource
 extension DetailViewController: UIPickerViewDataSource{
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -255,6 +248,7 @@ extension DetailViewController: UIPickerViewDataSource{
 
 
 
+// Extension to convert the Hex values to UIColor
 extension UIColor {
     convenience init?(hexaRGB: String, alpha: CGFloat = 1) {
         var chars = Array(hexaRGB.hasPrefix("#") ? hexaRGB.dropFirst() : hexaRGB[...])
