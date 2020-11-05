@@ -34,6 +34,12 @@ class TableViewController: UITableViewController {
         self.tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         view.backgroundColor = UIColor.init(hexaRGB: "#2c3e50")
                 
+        
+        let notificationCenter = NotificationCenter.default
+        
+        let passedTasks: [String: TaskStore] = ["TaskStore":self.taskStore]
+        
+        notificationCenter.post(name: NSNotification.Name(rawValue: "PassTaskToFilter"), object: nil, userInfo: passedTasks)
     }
     
     
@@ -51,7 +57,25 @@ class TableViewController: UITableViewController {
             self.tableView.reloadData()
         }
         
+        #warning("Remove this")
+        let notificationCenter = NotificationCenter.default
+        
+        let passedTasks: [String: TaskStore] = ["TaskStore":self.taskStore]
+        
+        notificationCenter.post(name: NSNotification.Name(rawValue: "PassTaskToFilter"), object: nil, userInfo: passedTasks)
+        
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        let notificationCenter = NotificationCenter.default
+        
+        let passedTasks: [String: TaskStore] = ["TaskStore":self.taskStore]
+        
+        notificationCenter.post(name: NSNotification.Name(rawValue: "PassTaskToFilter"), object: nil, userInfo: passedTasks)
+    }
+    
     
     // If the user swipe left, it will delete chosen task from tableView and taskStore
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
