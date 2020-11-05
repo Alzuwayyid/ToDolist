@@ -25,7 +25,7 @@ class TableViewController: UITableViewController {
     }()
     
     
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -34,6 +34,9 @@ class TableViewController: UITableViewController {
         self.tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         view.backgroundColor = UIColor.init(hexaRGB: "#2c3e50")
                 
+        
+        self.tableView.sectionHeaderHeight = 70
+
         
         let notificationCenter = NotificationCenter.default
         
@@ -57,7 +60,6 @@ class TableViewController: UITableViewController {
             self.tableView.reloadData()
         }
         
-        #warning("Remove this")
         let notificationCenter = NotificationCenter.default
         
         let passedTasks: [String: TaskStore] = ["TaskStore":self.taskStore]
@@ -76,6 +78,19 @@ class TableViewController: UITableViewController {
         notificationCenter.post(name: NSNotification.Name(rawValue: "PassTaskToFilter"), object: nil, userInfo: passedTasks)
     }
     
+
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 18))
+        let label = UILabel(frame: CGRect(x: 20, y: 20, width: 100, height: 50))
+        label.textColor = UIColor.white
+        label.text = "TASKS"
+        label.font = UIFont(name: label.font.fontName, size: 20)
+
+
+        view.addSubview(label)
+
+        return view
+    }
     
     // If the user swipe left, it will delete chosen task from tableView and taskStore
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -205,6 +220,13 @@ class TableViewController: UITableViewController {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.alpha = 0
+        UIView.animate(withDuration:0.9, animations: {
+            cell.alpha = 1
+        })
+        
+    }
      
     
     // prepare segue for editController and detailController
