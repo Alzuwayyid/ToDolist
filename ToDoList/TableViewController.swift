@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import UserNotifications
 
 class TableViewController: UITableViewController {
     
@@ -23,7 +24,6 @@ class TableViewController: UITableViewController {
         formatter.timeStyle = .none
         return formatter
     }()
-    
     
 
     override func viewDidLoad() {
@@ -111,17 +111,64 @@ class TableViewController: UITableViewController {
             
         })
         
+        let context2 = UIContextualAction(style: .destructive, title: "Notify", handler: {
+            (contextAction,view,boolVlaue) in
+            boolVlaue(true) // pasing true to alllow actions
+            
+        })
+        
         context.backgroundColor = .systemGreen
         
-        let swipeAction = UISwipeActionsConfiguration(actions: [context])
+        let swipeAction = UISwipeActionsConfiguration(actions: [context,context2])
         
         
+        let notfCenter = UNUserNotificationCenter.current()
+        let notfContent = UNMutableNotificationContent()
+        
+        #warning("You are here")
+        notfContent.title = "PAST DUE TASK"
+        notfContent.body = "Don't be lazy"
+
+        notfContent.sound = .default
+        
+        let date = Date()
+        let calendar = Calendar.current
+
+        let hour = calendar.component(.hour, from: date)
+        let minutes = calendar.component(.minute, from: date)
+        
+        
+        var dateComponent = DateComponents()
+        dateComponent.hour = hour
+        dateComponent.minute = minutes
+        
+        dateComponent.minute = dateComponent.minute! + 1
+
+        
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponent, repeats: true)
+        
+        let request = UNNotificationRequest(identifier: self.taskStore.allTasks[indexPath.row].id ,  content: notfContent, trigger: trigger)
+
+
         DispatchQueue.main.async {
+            self.registerNotification(withRequest: request)
             self.taskStore.allTasks[indexPath.row].isCompleted = true
             self.tableView.reloadData()
         }
         
         return swipeAction
+    }
+    
+    #warning("You are here")
+    func registerNotification(withRequest request: UNNotificationRequest){
+        let center = UNUserNotificationCenter.current()
+        center.getNotificationSettings(completionHandler: {
+            set in
+            if set.authorizationStatus == .notDetermined{
+                center.requestAuthorization(options: [.alert,.sound,.badge]) {_, _ in}}
+            if set.authorizationStatus == .authorized {
+                center.add(request) {_ in} }
+        })
     }
     
     // Specified only one section
@@ -222,7 +269,7 @@ class TableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.alpha = 0
-        UIView.animate(withDuration:0.9, animations: {
+        UIView.animate(withDuration:1.5, animations: {
             cell.alpha = 1
         })
         
