@@ -9,6 +9,7 @@ import UIKit
 
 class TableViewController: UITableViewController {
     
+    // MARK: - Properties
     var taskStore: TaskStore!
     var newTasks = [Task]()
     var tags = [String]()
@@ -30,11 +31,9 @@ class TableViewController: UITableViewController {
         
         tableView.dataSource = self
         tableView.delegate = self
-        
+        self.tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         view.backgroundColor = UIColor.init(hexaRGB: "#2c3e50")
-        
-
-        
+                
     }
     
     
@@ -65,7 +64,7 @@ class TableViewController: UITableViewController {
         
     }
     
-    
+    // If user swipes left-to-right, task will be completed
     override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let context = UIContextualAction(style: .normal, title: "Completed", handler: {
             (contextAction,view,boolVlaue) in
@@ -91,9 +90,9 @@ class TableViewController: UITableViewController {
         return 1
     }
     
-    // Table view depeands on the tasks count
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
+        // if there is no passed tasks, return all tasks
         if newTasks.isEmpty{
             return taskStore.allTasks.count
         }
@@ -101,6 +100,8 @@ class TableViewController: UITableViewController {
         return newTasks.count
     }
     
+    
+    // Return all tasks with specified tags
     func returnTasksWithTags(_ tagsArray: [String]) -> [Task]{
         
         var newArr = [Task]()
@@ -120,8 +121,9 @@ class TableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "TaskCell", for: indexPath) as! TaskCell
-        // Fetch the current index path row to embed data in it
         
+        
+        // If there is no passed tasks, set the title, dueDate and task status to all tasks.
         if newTasks.count == 0{
             cell.title.text = taskStore.allTasks[indexPath.row].title
             
@@ -129,7 +131,6 @@ class TableViewController: UITableViewController {
             
             if taskStore.allTasks[indexPath.row].isCompleted{
                 cell.completionImage.image =  UIImage(systemName: "checkmark.seal.fill")
-//                cell.completionImage.image!.withRenderingMode(.alwaysTemplate)
                 cell.completionImage.tintColor = .systemGreen
             }
             else{
@@ -147,9 +148,8 @@ class TableViewController: UITableViewController {
             }
             
         }
+        // Set title, dueDate and task status to tasks that contain tags similer to the passed ones.
         else{
-            #warning("You are here")
-
             cell.title.text = newTasks[indexPath.row].title
             
             dateFormatter.dateFormat = "MMM d, h:mm a"
@@ -178,8 +178,6 @@ class TableViewController: UITableViewController {
         
         cell.additionalNote.text = dateFormatter.string(from: taskStore.allTasks[indexPath.row].dueDate!)
         
-        print("---------->  due Date:   \(taskStore.allTasks[indexPath.row].dueDate!)")
-        print("----------> current Date:  \(Date())")
         return cell
     }
     
@@ -201,6 +199,7 @@ class TableViewController: UITableViewController {
                     editViewController.updateDelegate = self
                     editViewController.task = task
                 }
+                // setting tableViewController as FilterViewController delegate to pass tags in order to filter.
             case "filter":
                 let filterViewController = segue.destination as! FilterViewController
                 filterViewController.delegate = self

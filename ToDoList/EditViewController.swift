@@ -7,33 +7,40 @@
 
 import UIKit
 
+
+/**
+ - parameters:
+ -oldTask: Tasks with old values
+ -newTask: Tasks contain new details that was entered by the user
+ */
+
 protocol updateTaskDelegate {
     func updateTask(passedTask oldTask: Task, new updateTask: Task)
 }
 
 class EditViewController: UIViewController, UITextFieldDelegate,UITextViewDelegate {
     
-    
+    // MARK: - Properties
     var taskStore: TaskStore!
     var task: Task!
     var delegate: passTaskDelegate!
     var updateDelegate: updateTaskDelegate!
     var pastDue = Date()
-    
-    @IBOutlet var dueDateSwitch: UISwitch!
-    @IBOutlet var titleTextField: UITextField!
-    @IBOutlet var addNotes: UITextView!
-    @IBOutlet var datePicker: UIDatePicker!
-    @IBOutlet var completedButton: UIBarButtonItem!
-    
     var isCompleted: Bool = false
-    
     let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
         formatter.timeStyle = .none
         return formatter
     }()
+    
+    // MARK: - IBOutlets
+    @IBOutlet var dueDateSwitch: UISwitch!
+    @IBOutlet var titleTextField: UITextField!
+    @IBOutlet var addNotes: UITextView!
+    @IBOutlet var datePicker: UIDatePicker!
+    @IBOutlet var completedButton: UIBarButtonItem!
+    
     
     @IBAction func completedButton(_ sender: UIBarButtonItem) {
         self.isCompleted.toggle()
@@ -55,8 +62,9 @@ class EditViewController: UIViewController, UITextFieldDelegate,UITextViewDelega
         addNotes.delegate = self
         titleTextField.delegate = self
         
+        // MARK: - layer modifications
+        
         self.addNotes.text = task.additionalNote
-//        self.datePicker.date = task.dueDate ?? task.creationDate
         self.titleTextField.text = task.title
         self.datePicker.date = task.creationDate
         self.isCompleted = task.isCompleted
@@ -71,7 +79,6 @@ class EditViewController: UIViewController, UITextFieldDelegate,UITextViewDelega
         addNotes.layer.shadowRadius = 5
         addNotes.layer.masksToBounds = false
         
-//        titleTextField.layer.borderWidth = 0.5
         titleTextField.layer.cornerRadius = 10
         titleTextField.layer.shadowOffset = CGSize(width: 1.0, height: 1.0)
         titleTextField.layer.shadowOpacity = 0.3
@@ -81,7 +88,7 @@ class EditViewController: UIViewController, UITextFieldDelegate,UITextViewDelega
         
         
         
-
+        // if the task is completed, change the check status and vice versa
         if isCompleted{
             self.completedButton.image = UIImage(systemName: "checkmark.seal.fill")
         }
@@ -126,6 +133,7 @@ class EditViewController: UIViewController, UITextFieldDelegate,UITextViewDelega
     }
 }
 
+// MARK: - Passing data for the delegate
 
 extension EditViewController{
 
@@ -149,6 +157,12 @@ extension EditViewController{
             dueDate = Date()
         }
                 
+        /*
+         - if the user did type any data:
+         Create a new Task instance, and set all it's properties to the data that was provided by the user.
+         pass the data by the class delegate with the oldTask in order to replace it by the new one.
+         */
+        
         let updatedTask = Task(title: textTitle, dueDate: pastDue, date: dueDate!, additionalNote: addNotes, isCompleted: isCompleted, isLate: false, tag: "")
         updateDelegate.updateTask(passedTask: oldTaskToPass!, new: updatedTask)
 //        delegate.passTask(for: task)
