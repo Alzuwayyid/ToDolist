@@ -306,7 +306,7 @@ class TableViewController: UITableViewController {
     
 
 }
-
+//
 // Conforming the update and add tasks, then reloading table view.
 extension TableViewController: passTaskDelegate, updateTaskDelegate, passTags{
     func passTags(tags: [String], clearStore: Bool) {
