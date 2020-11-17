@@ -14,9 +14,9 @@ class TableViewController: UITableViewController {
     var taskStore: TaskStore!
     var newTasks = [Task]()
     var tags = [String]()
-    var personlTasks: [Task]{
-        taskStore.allTasks.filter({$0.filteringTag == "Personal"})
-    }
+//    var personlTasks: [Task]{
+//        taskStore.allTasks.filter({$0.filteringTag == "Personal"})
+//    }
 
     let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -40,9 +40,9 @@ class TableViewController: UITableViewController {
         
         let notificationCenter = NotificationCenter.default
         
-        let passedTasks: [String: TaskStore] = ["TaskStore":self.taskStore]
-        
-        notificationCenter.post(name: NSNotification.Name(rawValue: "PassTaskToFilter"), object: nil, userInfo: passedTasks)
+//        let passedTasks: [String: TaskStore] = ["TaskStore":self.taskStore]
+//
+//        notificationCenter.post(name: NSNotification.Name(rawValue: "PassTaskToFilter"), object: nil, userInfo: passedTasks)
     }
     
     
@@ -125,7 +125,6 @@ class TableViewController: UITableViewController {
         let notfCenter = UNUserNotificationCenter.current()
         let notfContent = UNMutableNotificationContent()
         
-        #warning("You are here")
         notfContent.title = "PAST DUE TASK"
         notfContent.body = "Don't be lazy"
 
@@ -144,7 +143,7 @@ class TableViewController: UITableViewController {
         
         dateComponent.minute = dateComponent.minute! + 1
 
-        
+        // A trigger condition that causes a notification to be delivered at a specific date and time.
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponent, repeats: true)
         
         let request = UNNotificationRequest(identifier: self.taskStore.allTasks[indexPath.row].id ,  content: notfContent, trigger: trigger)

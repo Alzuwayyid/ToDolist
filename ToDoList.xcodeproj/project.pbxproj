@@ -20,6 +20,7 @@
 		102EE5852550108100A01295 /* TaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102EE5842550108100A01295 /* TaskCell.swift */; };
 		102EE5922550163900A01295 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102EE5912550163900A01295 /* DetailViewController.swift */; };
 		102EE59A2550827700A01295 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102EE5992550827700A01295 /* EditViewController.swift */; };
+		10405C7C2562B2460088EBAB /* SavingOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10405C7B2562B2460088EBAB /* SavingOperation.swift */; };
 		109216262551C9C6001C99EF /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109216252551C9C6001C99EF /* FilterViewController.swift */; };
 		109216312552B824001C99EF /* UIView+Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109216302552B824001C99EF /* UIView+Constraints.swift */; };
 		603D3B05E8AC6569F9E5424A /* Pods_ToDoList.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14097E4B4D3F5FD845BA07F8 /* Pods_ToDoList.framework */; };
@@ -64,6 +65,7 @@
 		102EE5842550108100A01295 /* TaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCell.swift; sourceTree = "<group>"; };
 		102EE5912550163900A01295 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		102EE5992550827700A01295 /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
+		10405C7B2562B2460088EBAB /* SavingOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingOperation.swift; sourceTree = "<group>"; };
 		104E310F26F313037B548A63 /* Pods-ToDoListTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ToDoListTests.debug.xcconfig"; path = "Target Support Files/Pods-ToDoListTests/Pods-ToDoListTests.debug.xcconfig"; sourceTree = "<group>"; };
 		109216252551C9C6001C99EF /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		109216302552B824001C99EF /* UIView+Constraints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Constraints.swift"; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 			children = (
 				102EE56F254FF96000A01295 /* Task.swift */,
 				102EE574254FFAAE00A01295 /* TaskStore.swift */,
+				10405C7B2562B2460088EBAB /* SavingOperation.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -445,6 +448,7 @@
 				109216312552B824001C99EF /* UIView+Constraints.swift in Sources */,
 				102959C9254FF53D00EFFFF5 /* SceneDelegate.swift in Sources */,
 				102EE5922550163900A01295 /* DetailViewController.swift in Sources */,
+				10405C7C2562B2460088EBAB /* SavingOperation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -145,13 +145,13 @@ class FilterViewController: UIViewController {
         if personalSwitch.isOn{
             tagsToPass.append("Personal")
         }
-        else if workSwitch.isOn{
+         if workSwitch.isOn{
             tagsToPass.append("Work")
         }
-        else if familiSwitch.isOn{
+         if familiSwitch.isOn{
             tagsToPass.append("Family")
         }
-        else if grocerySwitch.isOn{
+         if grocerySwitch.isOn{
             tagsToPass.append("Grocery")
         }
         
