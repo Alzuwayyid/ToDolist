@@ -27,17 +27,24 @@ class TaskStore{
     
     init() {
         
-        do{
-            let data = try Data(contentsOf: taskArchiveURL)
-            let unArchive = PropertyListDecoder()
-            let tasks = try unArchive.decode([Task].self, from: data)
-            allTasks = tasks
-        }
-        catch{
-            print("Encountered some error while loading: \(error)")
-        }
+//        do{
+//            let data = try Data(contentsOf: taskArchiveURL)
+//            let unArchive = PropertyListDecoder()
+//            let tasks = try unArchive.decode([Task].self, from: data)
+//            allTasks = tasks
+//        }
+//        catch{
+//            print("Encountered some error while loading: \(error)")
+//        }
+//
+//        print("all items were loaded sucressfully")
         
-        print("all items were loaded sucressfully")
+        let opreationQueue = OperationQueue()
+        let operation = SavingOpeartion()
+        
+        operation.load()
+        opreationQueue.addOperation(operation)
+        
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(saveChanges), name: UIScene.didEnterBackgroundNotification, object: nil)
         notificationCenter.addObserver(self, selector: #selector(saveChanges), name: UIApplication.willTerminateNotification, object: nil)
@@ -71,9 +78,19 @@ class TaskStore{
         print("Items will be saved to; \(taskArchiveURL)")
         
         do{
-            let encoder = PropertyListEncoder()
-            let data = try encoder.encode(allTasks)
-            try data.write(to: taskArchiveURL, options: [.atomic])
+            let savingOperation = SavingOpeartion()
+            savingOperation.allTasks = self.allTasks
+            
+            let opreationQueue = OperationQueue()
+            let operation = SavingOpeartion()
+            
+            operation.save()
+            opreationQueue.addOperation(operation)
+            
+            opreationQueue.addOperation{
+                print("GG")
+            }
+            
             print("All items were saved successfully")
             return true
         }
